@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
-import { Feather, Ionicons } from '@expo/vector-icons';
-import { Header } from '@/components/common/Header';
 import { CustomCard } from '@/components/common/CustomCard';
-import { Colors, Radius, Shadow } from '@/constants/theme';
+import { Header } from '@/components/common/Header';
+import { Feather, Ionicons } from '@expo/vector-icons';
+import { useState } from 'react';
+import {
+  Alert,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 interface NotificationItem {
   id: string;
@@ -22,38 +21,38 @@ interface NotificationItem {
 }
 
 const INITIAL_NOTIFICATIONS: NotificationItem[] = [
-  {
-    id: 'n-1',
-    title: 'Complaint Dispatched to Field Team',
-    message: 'Ticket MCF-2026-8941 (Garbage Collection) assigned to Ward 14 Sanitation unit. Vehicle on route.',
-    time: '2 hours ago',
-    type: 'complaint',
-    read: false,
-  },
-  {
-    id: 'n-2',
-    title: 'Property Tax 10% Early Bird Rebate',
-    message: 'Avail 10% rebate by paying property tax online before 31st October via Citizen Services portal.',
-    time: 'Yesterday, 04:30 PM',
-    type: 'service',
-    read: false,
-  },
-  {
-    id: 'n-3',
-    title: 'Water Works Maintenance Scheduled',
-    message: 'Booster pump maintenance in Sector 15 & 16 tomorrow morning from 10:00 AM to 1:00 PM. Storage advised.',
-    time: '23 Sep 2026',
-    type: 'alert',
-    read: true,
-  },
-  {
-    id: 'n-4',
-    title: 'Street Light Fault Resolved',
-    message: 'Ticket MCF-2026-8420 has been inspected and resolved. LED driver replaced by lineman team.',
-    time: '21 Sep 2026',
-    type: 'complaint',
-    read: true,
-  },
+  // {
+  //   id: 'n-1',
+  //   title: 'Complaint Dispatched to Field Team',
+  //   message: 'Ticket MCF-2026-8941 (Garbage Collection) assigned to Ward 14 Sanitation unit. Vehicle on route.',
+  //   time: '2 hours ago',
+  //   type: 'complaint',
+  //   read: false,
+  // },
+  // {
+  //   id: 'n-2',
+  //   title: 'Property Tax 10% Early Bird Rebate',
+  //   message: 'Avail 10% rebate by paying property tax online before 31st October via Citizen Services portal.',
+  //   time: 'Yesterday, 04:30 PM',
+  //   type: 'service',
+  //   read: false,
+  // },
+  // {
+  //   id: 'n-3',
+  //   title: 'Water Works Maintenance Scheduled',
+  //   message: 'Booster pump maintenance in Sector 15 & 16 tomorrow morning from 10:00 AM to 1:00 PM. Storage advised.',
+  //   time: '23 Sep 2026',
+  //   type: 'alert',
+  //   read: true,
+  // },
+  // {
+  //   id: 'n-4',
+  //   title: 'Street Light Fault Resolved',
+  //   message: 'Ticket MCF-2026-8420 has been inspected and resolved. LED driver replaced by lineman team.',
+  //   time: '21 Sep 2026',
+  //   type: 'complaint',
+  //   read: true,
+  // },
 ];
 
 export default function NotificationsScreen() {

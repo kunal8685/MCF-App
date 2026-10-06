@@ -1,27 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
   Linking,
 } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { Header } from '@/components/common/Header';
 import { CustomCard } from '@/components/common/CustomCard';
-import { useComplaints } from '@/context/ComplaintsContext';
-import { Colors, Radius, Shadow } from '@/constants/theme';
+import { Radius, Shadow } from '@/constants/theme';
+import { fetchCitizenComplaintsApi } from '@/services/grievanceApi';
 
 export default function ComplaintsRedressalScreen() {
   const router = useRouter();
-  const { complaints } = useComplaints();
+  const [counts, setCounts] = useState({ total: 0, pending: 0, inProgress: 0, resolved: 0 });
 
-  const total = complaints.length;
-  const pending = complaints.filter((c) => c.status === 'Pending').length;
-  const inProgress = complaints.filter((c) => c.status === 'In Progress').length;
-  const resolved = complaints.filter((c) => c.status === 'Resolved').length;
+  const loadCounts = useCallback(async () => {
+    try {
+      const res = await fetchCitizenComplaintsApi({ page_size: 100 });
+      if (res && res.complaints) {
+        const list = res.complaints;
+        const total = res.pagination?.total_records || list.length;
+        const resolved = list.filter((c) => {
+          const s = (c.status_label || String(c.GmdaComplaint?.status || '')).toLowerCase();
+          return s.includes('close') || s.includes('resolve') || s === '5';
+        }).length;
+        const inProgress = list.filter((c) => {
+          const s = (c.status_label || String(c.GmdaComplaint?.status || '')).toLowerCase();
+          return s.includes('progress') || s.includes('assign') || s.includes('inspect') || s === '2';
+        }).length;
+        const pending = Math.max(0, total - resolved - inProgress);
+        setCounts({ total, pending, inProgress, resolved });
+      }
+    } catch {
+      // keep default 0 counts
+    }
+  }, []);
+
+  useEffect(() => {
+    loadCounts();
+  }, [loadCounts]);
+
+  const { total, pending, inProgress, resolved } = counts;
 
   const handleCallTollFree = () => {
     Linking.openURL('tel:18001802013');

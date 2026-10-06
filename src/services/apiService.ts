@@ -1,5 +1,6 @@
 import { GOVT_CONFIG } from '@/constants/config';
 import { Complaint, CitizenProfile } from '@/types';
+import URLS from './base_url';
 
 export interface ApiResponse<T> {
   success: boolean;
@@ -10,10 +11,9 @@ export interface ApiResponse<T> {
 
 /**
  * Enterprise API client abstraction for Municipal Corporation Faridabad backend.
- * Prepared for live NIC / Haryana DULB server endpoints.
  */
 class ApiService {
-  private baseUrl: string = 'https://api.mcfaridabad.org/v1';
+  private baseUrl: string = URLS.BASE_URL;
 
   private getHeaders(token?: string): Record<string, string> {
     return {
